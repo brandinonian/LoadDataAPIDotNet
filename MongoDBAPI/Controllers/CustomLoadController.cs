@@ -23,9 +23,9 @@ namespace LoadDataAPI.Controllers
         }
 
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<MongoCustomLoad>> Get(ObjectId Id)
+        public async Task<ActionResult<MongoCustomLoad>> Get(ObjectId id)
         {
-            var factoryLoad = await _customLoadService.GetAsync(Id);
+            var factoryLoad = await _customLoadService.GetAsync(id);
 
             if (factoryLoad is null)
                 return NotFound();
@@ -34,37 +34,34 @@ namespace LoadDataAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(MongoCustomLoad newCustomLoad)
+        public async Task<IActionResult> Post([FromBody] MongoCustomLoad newCustomLoad)
         {
             await _customLoadService.CreateAsync(newCustomLoad);
 
             return CreatedAtAction(nameof(Get), new { id = newCustomLoad.Id }, newCustomLoad);
         }
 
+        /*
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> Update(ObjectId Id, MongoCustomLoad updatedCustomLoad)
+        public async Task<IActionResult> Update(ObjectId id, MongoCustomLoad updatedCustomLoad)
         {
-            var customLoad = await _customLoadService.GetAsync(Id);
+            var customLoad = await _customLoadService.GetAsync(id);
 
             if (customLoad is null)
                 return NotFound();
 
             updatedCustomLoad.Id = customLoad.Id;
 
-            await _customLoadService.UpdateAsync(Id, updatedCustomLoad);
+            await _customLoadService.UpdateAsync(id, updatedCustomLoad);
 
             return NoContent();
         }
+        */
 
         [HttpDelete("{id:length(24)}")]
-        public async Task<IActionResult> Delete(ObjectId Id)
+        public async Task<IActionResult> Delete(ObjectId id)
         {
-            var customLoad = await _customLoadService.GetAsync(Id);
-
-            if (customLoad is null)
-                return NotFound();
-
-            await _customLoadService.RemoveAsync(Id);
+            await _customLoadService.RemoveAsync(id);
 
             return NoContent();
         }

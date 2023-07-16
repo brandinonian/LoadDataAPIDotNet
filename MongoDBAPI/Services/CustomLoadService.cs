@@ -18,21 +18,31 @@ namespace LoadDataAPI.Services
             _customLoadsCollection = mongoDatabase.GetCollection<MongoCustomLoad>(CustomLoadSettings.Value.CustomCollectionName);
         }
 
-        public async Task<List<MongoCustomLoad>> GetAsync() =>
-            await _customLoadsCollection.Find(_ => true).ToListAsync();
+        public async Task<List<MongoCustomLoad>> GetAsync()
+        {
+            return await _customLoadsCollection.Find(new BsonDocument()).ToListAsync();
+        }
 
+        public async Task<MongoCustomLoad?> GetAsync(ObjectId id)
+        {
+            return await _customLoadsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        }
 
-        public async Task<MongoCustomLoad?> GetAsync(ObjectId id) =>
-            await _customLoadsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
-        public async Task CreateAsync(MongoCustomLoad newCustomLoad) =>
+        public async Task CreateAsync(MongoCustomLoad newCustomLoad)
+        {
             await _customLoadsCollection.InsertOneAsync(newCustomLoad);
+            return;
+        }
 
         public async Task UpdateAsync(ObjectId id, MongoCustomLoad updatedCustomLoad) =>
             await _customLoadsCollection.ReplaceOneAsync(x => x.Id == id, updatedCustomLoad);
 
-        public async Task RemoveAsync(ObjectId id) =>
-            await _customLoadsCollection.DeleteOneAsync(x => x.Id == id);
+        public async Task RemoveAsync(ObjectId id)
+        {
+            FilterDefinition<MongoCustomLoad> filter = Builders<MongoCustomLoad>.Filter.Eq("Id", id);
+            await _customLoadsCollection.DeleteOneAsync(filter);
+            return;
+        }
     }
 }
 

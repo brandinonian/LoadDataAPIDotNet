@@ -41,6 +41,7 @@ namespace LoadDataAPI.Controllers
             return CreatedAtAction(nameof(Get), new { id = newFactoryLoad.Id }, newFactoryLoad);
         }
 
+        /*
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> Update(ObjectId id, MongoFactoryLoad updatedFactoryLoad)
         {
@@ -55,6 +56,7 @@ namespace LoadDataAPI.Controllers
 
             return NoContent();
         }
+        */
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(ObjectId id)
