@@ -4,14 +4,14 @@ using MongoDB.Bson;
 
 namespace LoadDataAPI.Models
 {
-	public class MongoFactoryLoad : FactoryLoad
-	{
-		public ObjectId Id { get; set; }
+    public class MongoFactoryLoad : FactoryLoad
+    {
+        public ObjectId Id { get; set; }
 
-		public MongoFactoryLoad(ObjectId Id) : base()
-		{
-			this.Id = Id;
-		}
-	}
+        public MongoFactoryLoad(ObjectId Id) : base()
+        {
+            this.Id = Id;
+        }
+    }
 }
 
